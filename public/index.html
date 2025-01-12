@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="author" , content="Adrian Suliga" />
+    <link rel="icon" href="resources/icon.ico" />
+    <link rel="stylesheet" type="text/css" href="style/style.css" />
+    <link rel="stylesheet" type="text/css" href="style/responsive.css" />
+    <link rel="stylesheet" type="text/css" href="style/windows.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="scripts/windows.js"></script>
+    <script type="module" src="scripts/post.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script
+      type="module"
+      src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"
+    ></script>
+    <script type="module" src="scripts/graph.js"></script>
+    <title>Waltruda</title>
+  </head>
+  <body>
+    <header>
+      <h1>Waltruda Control Panel</h1>
+      <button id="info_button">?</button>
+    </header>
+    <main>
+      <div id="left_panel_container">
+        <div id="gen_info_wrapper">
+          <div class="gen_info_container">
+            <h1 class="gen_info_headers">Connection:</h1>
+            <h2 id="conn_status">-</h2>
+          </div>
+          <div class="gen_info_container">
+            <h1 class="gen_info_headers">Heater mode:</h1>
+            <h2 id="heater_mode">-</h2>
+          </div>
+        </div>
+        <div id="canva_wrapper">
+          <canvas id="waltruda_chart"></canvas>
+        </div>
+      </div>
+      <div id="right_panel_container">
+        <div id="details_container">
+          <h1 id="details_header">Details</h1>
+          <div id="thermistor_grid">
+            <div class="grid_item">
+              <h2>Thermistor 1</h2>
+              <p id="temp1" class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Thermistor 2</h2>
+              <p id="temp2" class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Thermistor 3</h2>
+              <p id="temp3" class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Thermistor 4</h2>
+              <p id="temp4" class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Avg temperature</h2>
+              <p id="avg_temp" class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Desired temperature</h2>
+              <p id="desired_temp" class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Progress min</h2>
+              <p id="progress_min" class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Duty cycle:</h2>
+              <p id="duty_cycle" class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Fan:</h2>
+              <p id="fan_info" , class="thermistor_val">-</p>
+            </div>
+            <div class="grid_item">
+              <h2>Pump:</h2>
+              <p id="pump_info" , class="thermistor_val">-</p>
+            </div>
+          </div>
+        </div>
+        <div id="control_container">
+          <h1 id="admin_header">Admin Section</h1>
+          <div id="buttons_container">
+            <button id="shutdown_button" class="regular_buttons">
+              SHUTDOWN
+            </button>
+            <button id="password_button" class="regular_buttons">
+              CHANGE PASSWORD
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div id="shutdown_window" class="hidden">
+      <div class="window_header_container">
+        <h1>Shutdown heater</h1>
+        <button id="close_shutdown_window" class="regular_buttons">X</button>
+      </div>
+      <div class="window_body_container">
+        <label>Password:</label><br />
+        <input id="shutdown_input" type="password" /><br />
+        <button id="shutdown_submit" class="regular_buttons">Shutdown</button>
+      </div>
+    </div>
+    <div id="password_window" class="hidden">
+      <div class="window_header_container">
+        <h1>Change password</h1>
+        <button id="close_passchange_window" class="regular_buttons">X</button>
+      </div>
+      <div class="window_body_container">
+        <label>Old password</label><br />
+        <input id="old_password_input" type="password" /><br />
+        <label>New password</label><br />
+        <input id="new_password_input" type="password" /><br />
+        <button id="password_submit" class="regular_buttons">Change</button>
+      </div>
+    </div>
+    <div id="info_window" class="hidden">
+      <div class="window_header_container">
+        <h1>Info</h1>
+        <button id="close_info_window" class="regular_buttons">X</button>
+      </div>
+      <div class="window_body_container">
+        <h2>Connection</h2>
+        <ul>
+          <li>
+            SITE NOT CONNECTED - This website could not connect to the broker
+          </li>
+          <li>ESTABLISHED - Everything is fine</li>
+        </ul>
+        <h2>Heater mode</h2>
+        <ul>
+          <li>IDLE - Heater is turned on, no heating in progress.</li>
+          <li>
+            FIXED - Fixed temperature mode, increase T to given value and than
+            keep it.
+          </li>
+          <li>PROFILE - Profile was selected on UI.</li>
+          <li>STOPPED - ?</li>
+          <li>MODE ERROR - Unknown mode was received.</li>
+        </ul>
+        <h2>Password</h2>
+        <p>
+          If server hosting this website resets, the password will reset as well
+          to default value.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>
